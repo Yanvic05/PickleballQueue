@@ -1,21 +1,15 @@
-# Bashers & Dinkers — Pickleball Queue Manager (Skill Ratings)
+# Bashers & Dinkers Queue Manager
 
-## Features
-- Responsive static website for GitHub Pages
-- Add players with a skill rating from 1.0 to 5.0 (0.5 increments)
-- Multiple courts and doubles matches
-- Queue priority: fewest games played, then highest waiting score
-- Skill-balanced teams: minimize the difference between the two teams' average ratings
-- Partner rotation: among equally skill-balanced team splits, prefer fewer repeat partnerships; randomize exact ties
-- Score entry, win/loss records, player rankings, point differential, and match history
-- Browser-local persistence with localStorage
+## GitHub Pages deployment
+1. Upload `index.html` to the root of your `pickleball-queue` repository, replacing the existing file.
+2. Commit the change to the `main` branch.
+3. Keep GitHub Pages configured for `main` / `(root)`.
 
-## Deploy/update on GitHub Pages
-1. Extract this ZIP.
-2. Open your existing `pickleball-queue` repository.
-3. Upload the new `index.html` (replace the old file) and commit changes.
-4. Keep GitHub Pages configured for branch `main`, folder `/(root)`.
-5. Refresh the published URL.
+## Session setup
+- **Courts:** 1–6 courts.
+- **Balanced:** balances team-average ratings, discourages repeat partners, and avoids selecting a four-player lineup with exactly one 3.0 player whenever a valid alternative is available.
+- **Social Mix:** keeps queue rotation first and randomizes teams; ratings are not used to select teams.
+- **Skill Separated:** selects a narrow skill-rating group and pairs similar ratings together. It may leave a court waiting if there are not enough comparable players.
+- **Winners / Losers:** after a scored match, tries to put two winners and two losers in the next lineup.
 
-## Important
-This version stores session data in the current browser/device only. It does not synchronize multiple devices. A shared club queue needs a backend such as Supabase with appropriate access controls.
+Player ratings are editable in **Player Balance**. Ratings affect future lineups, not matches already in progress. The app stores data in the current browser's local storage; it does not synchronize data between devices.

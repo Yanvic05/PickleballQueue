@@ -19,25 +19,25 @@
 <div id="notice" class="notice" role="status">Ready to play. Add players or use the sample roster.</div>
 <section class="panel">
  <div class="row"><h2>Session setup</h2><button class="secondary small" id="resetBtn">Reset session</button></div>
- <div class="settings"><label for="courtCount">Courts</label><select id="courtCount"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select><span class="muted">Each court runs its own doubles match.</span></div>
- <div class="addrow" style="margin-top:13px"><input id="playerName" maxlength="40" placeholder="Enter player name" autocomplete="off"><select id="playerSkill" aria-label="Player skill rating" title="Skill rating"><option value="1">1.0 · Beginner</option><option value="1.5">1.5</option><option value="2">2.0</option><option value="2.5">2.5</option><option value="3" selected>3.0 · Intermediate</option><option value="3.5">3.5</option><option value="4">4.0</option><option value="4.5">4.5</option><option value="5">5.0 · Advanced</option></select><button id="addBtn">＋ Add player</button></div><p class="muted">Choose a skill rating from 1.0 to 5.0 when registering each player.</p>
+ <div class="settings"><label for="courtCount">Courts</label><select id="courtCount"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select><label for="matchingMode">Matching mode</label><select id="matchingMode"><option value="balanced">Balanced</option><option value="social">Social Mix</option><option value="separated">Skill Separated</option><option value="winners">Winners / Losers</option></select></div><p class="muted" id="setupHelp">Balanced: balances teams by rating and avoids a lineup with exactly one 3.0 player whenever a valid alternative exists.</p>
+ <div class="addrow" style="margin-top:13px"><input id="playerName" maxlength="40" placeholder="Enter player name" autocomplete="off"><select id="playerSkill" aria-label="Player skill rating" title="Skill rating"><option value="1">1.0 · Beginner</option><option value="1.5">1.5</option><option value="2">2.0</option><option value="2.5">2.5</option><option value="3" selected>3.0 · Intermediate</option><option value="3.5">3.5</option><option value="4">4.0</option><option value="4.5">4.5</option><option value="5">5.0 · Advanced</option></select><button id="addBtn">＋ Add player</button></div><p class="muted">Choose a skill rating from 1.0 to 5.0 when registering. To adjust a registered player later, open Player Balance and tap Edit rating.</p>
 </section>
 <nav class="tabs" aria-label="Views"><button class="active" data-tab="queue">Queue & Courts</button><button data-tab="balance">Player Balance</button><button data-tab="rankings">Rankings</button><button data-tab="history">Match History</button></nav>
 <main id="queueView">
  <section class="panel"><div class="row"><h2>Court management</h2><span class="muted" id="courtSummary"></span></div><div id="courts" class="courts"></div></section>
- <section class="panel"><div class="row"><h2>Next doubles lineup</h2><span class="pill" id="nextCount">0 / 4 players</span></div><p class="muted">Preview of the next four eligible players. Teams are randomized when you start a match, with repeat partners discouraged.</p><div class="slots" id="nextSlots"></div></section>
+ <section class="panel"><div class="row"><h2>Next doubles lineup</h2><span class="pill" id="nextCount">0 / 4 players</span></div><p class="muted">Preview of the four players selected by your queue settings. Team pairing uses skill ratings and partner history when enabled.</p><div class="slots" id="nextSlots"></div></section>
  <section class="panel"><div class="row"><h2>Waiting queue</h2><span class="muted">Fair rotation</span></div><div id="queueList" class="list"></div></section>
 </main>
-<main id="balanceView" class="hidden"><section class="panel"><h2>Player queue balance</h2><p class="muted">Lower games played comes first; waiting time breaks ties. The wait score increases each time another match finishes.</p><div class="tablewrap"><table><thead><tr><th>Player</th><th class="num">Games</th><th class="num">Wait score</th><th>Status</th><th></th></tr></thead><tbody id="balanceRows"></tbody></table></div></section></main>
+<main id="balanceView" class="hidden"><section class="panel"><h2>Player queue balance</h2><p class="muted">Lower games played comes first; waiting time breaks ties. The wait score increases each time another match finishes. Use Edit rating to adjust a player from 1.0 to 5.0 in 0.5 increments. Rating changes affect future lineups, not matches already in progress.</p><div class="tablewrap"><table><thead><tr><th>Player</th><th class="num">Games</th><th class="num">Wait score</th><th>Status</th><th>Skill rating</th><th>Actions</th></tr></thead><tbody id="balanceRows"></tbody></table></div></section></main>
 <main id="rankingsView" class="hidden"><section class="panel"><h2>🏆 Player Rankings</h2><p class="muted">Ranked by wins, then win percentage, then point differential.</p><div class="tablewrap"><table><thead><tr><th>#</th><th>Player</th><th>Skill</th><th>Wins</th><th>Losses</th><th>Win %</th><th>Points +/-</th></tr></thead><tbody id="rankingRows"></tbody></table></div></section></main><main id="historyView" class="hidden"><section class="panel"><h2>Completed matches</h2><div id="historyList"></div></section></main>
-<section class="panel"><h2>How fairness works</h2><div class="muted">① Players on court are excluded from the queue. ② Available players are ranked by fewest completed games, then highest waiting score. ③ Four eligible players are selected for doubles. ④ Teams are split to minimize the difference between team-average skill ratings, then favor partners who have played together less often; exact ties are randomized. ⑤ Enter scores before finishing. ⑥ Finishing updates wins, losses, points, rankings, queue balance, and match history.</div></section>
+<section class="panel"><h2>How fairness works</h2><div class="muted">① Players on court are excluded. ② Fair rotation ranks by fewest games, then wait score. ③ Skill-balanced mode selects four from the next eight eligible players, favoring a tighter skill range while still considering queue position. ④ Matching mode controls team formation: Balanced, Social Mix, Skill Separated, or Winners / Losers. Balanced avoids a four-player lineup with exactly one 3.0 rating whenever an alternative exists. ⑤ Enter scores before finishing. ⑥ Finishing updates wins, losses, points, rankings, queue balance, and match history.</div></section>
 <div class="footer">Bashers & Dinkers Queue Manager · This browser's saved session</div>
 </div>
 <script>
 (() => {
 const KEY='bashers-dinkers-queue-v1';
 const sampleNames=['Alex','Ben','Carlo','Dan','Ella','Frank','Grace','Henry','Ivan','Jules','Kyle','Lara'];
-const initial=()=>({players:sampleNames.map((name,i)=>({id:i+1,name,games:0,wait:sampleNames.length-i,lastPlayed:0,partners:{},playing:false,wins:0,losses:0,pointsFor:0,pointsAgainst:0})),matches:[],history:[],nextId:sampleNames.length+1,seq:0,courtCount:2});
+const initial=()=>({players:sampleNames.map((name,i)=>({id:i+1,name,games:0,wait:sampleNames.length-i,lastPlayed:0,partners:{},playing:false,wins:0,losses:0,pointsFor:0,pointsAgainst:0})),matches:[],history:[],nextId:sampleNames.length+1,seq:0,courtCount:2,matchingMode:"balanced"});
 let state;
 try { state=JSON.parse(localStorage.getItem(KEY)) || initial(); } catch { state=initial(); }
 const $=id=>document.getElementById(id);
@@ -46,11 +46,16 @@ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}};
 const notify=s=>{$('notice').textContent=s;};
 const player=id=>state.players.find(p=>p.id===id);
 const skill=p=>Number(p.skill??3);
+state.matchingMode=state.matchingMode||((state.queueMode==='fair')?'social':'balanced');
 state.players.forEach(p=>{if(p.skill==null)p.skill=3;if(p.wins==null)p.wins=0;if(p.losses==null)p.losses=0;if(p.pointsFor==null)p.pointsFor=0;if(p.pointsAgainst==null)p.pointsAgainst=0;});
 const eligible=()=>state.players.filter(p=>!p.playing).sort((a,b)=>a.games-b.games||b.wait-a.wait||a.lastPlayed-b.lastPlayed||a.name.localeCompare(b.name));
 const partnerCount=(a,b)=>(player(a)?.partners?.[b]||0);
 function chooseTeams(four){
  const splits=[[[0,1],[2,3]],[[0,2],[1,3]],[[0,3],[1,2]]];
+ if(state.matchingMode==='social'){
+  const shuffled=four.slice().sort(()=>Math.random()-0.5);
+  return [[shuffled[0].id,shuffled[1].id],[shuffled[2].id,shuffled[3].id]];
+ }
  const scored=splits.map(teams=>{
   const avgA=(skill(four[teams[0][0]])+skill(four[teams[0][1]]))/2;
   const avgB=(skill(four[teams[1][0]])+skill(four[teams[1][1]]))/2;
@@ -58,11 +63,50 @@ function chooseTeams(four){
   const repeats=partnerCount(four[teams[0][0]].id,four[teams[0][1]].id)+partnerCount(four[teams[1][0]].id,four[teams[1][1]].id);
   return {teams,skillGap,repeats};
  });
+ if(state.matchingMode==='separated'){
+  // Pair players of similar ratings together; randomize equally suitable splits.
+  const ratingSorted=four.map((p,i)=>({p,i})).sort((a,b)=>skill(a.p)-skill(b.p));
+  const lowHigh=[[[ratingSorted[0].i,ratingSorted[1].i],[ratingSorted[2].i,ratingSorted[3].i]]];
+  return lowHigh[0].map(pair=>pair.map(i=>four[i].id));
+ }
  const minGap=Math.min(...scored.map(x=>x.skillGap));
  const skillTied=scored.filter(x=>x.skillGap===minGap);
  const minRepeats=Math.min(...skillTied.map(x=>x.repeats));
  const finalists=skillTied.filter(x=>x.repeats===minRepeats);
  return finalists[Math.floor(Math.random()*finalists.length)].teams.map(pair=>pair.map(i=>four[i].id));
+}
+function selectFour(pool){
+ if(pool.length<4)return null;
+ if(state.matchingMode==='social')return pool.slice(0,4);
+ if(state.matchingMode==='winners'){
+  const last=state.history[0];
+  if(last){
+   const winners=last.scoreA>last.scoreB?last.teams[0]:last.teams[1];
+   const losers=last.scoreA>last.scoreB?last.teams[1]:last.teams[0];
+   const winPlayers=winners.map(player).filter(p=>p&&!p.playing);
+   const losePlayers=losers.map(player).filter(p=>p&&!p.playing);
+   if(winPlayers.length>=2&&losePlayers.length>=2)return [...winPlayers.slice(0,2),...losePlayers.slice(0,2)];
+  }
+  return pool.slice(0,4);
+ }
+ const candidates=pool.slice(0,Math.min(10,pool.length));
+ let best=null,bestScore=Infinity;
+ for(let a=0;a<candidates.length-3;a++)for(let b=a+1;b<candidates.length-2;b++)for(let c=b+1;c<candidates.length-1;c++)for(let d=c+1;d<candidates.length;d++){
+  const idx=[a,b,c,d],group=idx.map(i=>candidates[i]);
+  const ratings=group.map(skill),spread=Math.max(...ratings)-Math.min(...ratings);
+  const count3=ratings.filter(r=>r===3).length;
+  // Hard rule: do not make a lineup with exactly one 3.0 player if another valid group exists.
+  const loneThreePenalty=count3===1?100:0;
+  let skillScore=spread*2;
+  if(state.matchingMode==='separated'){
+   // Keep the four-player pool in a narrow band; ties favor adjacent queue positions.
+   skillScore=spread*3;
+  }
+  const queueCost=idx.reduce((sum,i)=>sum+i,0);
+  const score=loneThreePenalty+skillScore+queueCost*0.18;
+  if(score<bestScore){bestScore=score;best=group;}
+ }
+ return best||pool.slice(0,4);
 }
 function addPlayer(){
  const input=$('playerName'),name=input.value.trim(),rating=Number($('playerSkill').value); if(!name)return;
@@ -71,7 +115,7 @@ function addPlayer(){
 }
 function startMatch(court){
  if(state.matches.some(m=>m.court===court)){notify('That court already has an active match.');return;}
- const four=eligible().slice(0,4);if(four.length<4){notify('You need four available players to start a doubles match.');return;}
+ const four=selectFour(eligible());if(!four||four.length<4){notify('You need four available players to start a doubles match.');return;}
  const teams=chooseTeams(four),ids=four.map(p=>p.id),match={id:state.seq+1,court,teams,playerIds:ids,startedAt:new Date().toISOString()};
  ids.forEach(id=>{const p=player(id);p.playing=true;p.wait=0;});
  state.seq++;state.matches.push(match);save();render();notify('Match started on Court '+court+'.');
@@ -97,6 +141,15 @@ function finishMatch(id){
  state.history.unshift({...m,scoreA,scoreB,finishedAt:new Date().toISOString()});
  state.matches=state.matches.filter(x=>x.id!==id);state.seq++;save();render();notify('Score saved. Rankings and queue balances have been updated.');
 }
+function editPlayerRating(id){
+ const p=player(id);if(!p)return;
+ const answer=prompt('Set skill rating for '+p.name+' (1.0 to 5.0, increments of 0.5):',skill(p).toFixed(1));
+ if(answer===null)return;
+ const rating=Number(answer.trim());
+ if(!Number.isFinite(rating)||rating<1||rating>5||Math.round(rating*2)!==rating*2){notify('Invalid rating. Use 1.0 to 5.0 in 0.5 increments.');return;}
+ const old=skill(p);p.skill=rating;save();render();
+ notify(p.name+': rating updated from '+old.toFixed(1)+' to '+rating.toFixed(1)+'. Future lineups will use the new rating.');
+}
 function removePlayer(id){
  const p=player(id);if(!p)return;if(p.playing){notify('Finish the player’s active match before removing them.');return;}
  if(!confirm('Remove '+p.name+' from this session?'))return;
@@ -107,8 +160,12 @@ function render(){
  $('statPlaying').textContent=state.players.filter(p=>p.playing).length;
  $('statWaiting').textContent=state.players.filter(p=>!p.playing).length;
  $('courtCount').value=String(state.courtCount);
+ $('matchingMode').value=state.matchingMode;
+ const help={balanced:'Balanced: balances teams by rating and avoids a lineup with exactly one 3.0 player whenever a valid alternative exists.',social:'Social Mix: prioritizes queue order and rotates partners before repeating; ratings are not used for team pairing.',separated:'Skill Separated: groups players with similar ratings together; a court may wait if there are not enough comparable players.',winners:'Winners / Losers: after a scored match, the next lineup tries to mix two winners with two losers.'};
+ $('setupHelp').textContent=help[state.matchingMode]||help.balanced;
  $('courtSummary').textContent=state.matches.length+' active';
  const pool=eligible();
+ const nextFour=selectFour(pool)||[];
  $('courts').innerHTML=Array.from({length:state.courtCount},(_,i)=>i+1).map(c=>{
   const m=state.matches.find(x=>x.court===c);
   if(!m)return `<article class="court"><div class="row"><h3>Court ${c}</h3><span class="pill">AVAILABLE</span></div><p class="muted">Ready for the next four eligible players.</p><button data-start="${c}" ${pool.length<4?'disabled':''} style="width:100%">▶ Start next match</button></article>`;
@@ -116,10 +173,10 @@ function render(){
   return `<article class="court"><div class="row"><h3>Court ${c}</h3><span class="pill live">IN PROGRESS</span></div><div class="teams"><div class="team"><label>TEAM A</label>${a.map(n=>`<strong>${esc(n)}</strong>`).join('')}</div><b>VS</b><div class="team"><label>TEAM B</label>${b.map(n=>`<strong>${esc(n)}</strong>`).join('')}</div></div><div class="score-entry"><label>Team A score <input data-score-a="${m.id}" type="number" min="0" step="1" placeholder="0"></label><label>Team B score <input data-score-b="${m.id}" type="number" min="0" step="1" placeholder="0"></label></div><div class="match-actions"><button data-finish="${m.id}" style="width:100%">✓ Save score & finish</button></div></article>`;
  }).join('');
  $('nextCount').textContent=Math.min(4,pool.length)+' / 4 players';
- $('nextSlots').innerHTML=Array.from({length:4},(_,i)=>pool[i]?`<div class="slot"><small>NEXT UP · SLOT ${i+1}</small><strong>${esc(pool[i].name)}</strong><span>Rating ${skill(pool[i]).toFixed(1)} · ${pool[i].games} games</span></div>`:`<div class="slot"><small>SLOT ${i+1}</small><strong>Waiting for player</strong><span>Not enough players</span></div>`).join('');
+ $('nextSlots').innerHTML=Array.from({length:4},(_,i)=>nextFour[i]?`<div class="slot"><small>NEXT UP · SLOT ${i+1}</small><strong>${esc(nextFour[i].name)}</strong><span>Rating ${skill(nextFour[i]).toFixed(1)} · ${nextFour[i].games} games</span></div>`:`<div class="slot"><small>SLOT ${i+1}</small><strong>Waiting for player</strong><span>Not enough players</span></div>`).join('');
  $('queueList').innerHTML=pool.length?pool.map((p,i)=>`<div class="player"><div class="rank">${i+1}</div><div><div class="playername">${esc(p.name)}</div><small>Rating ${skill(p).toFixed(1)} · ${p.games} games · wait score ${p.wait}</small></div>${i<4?'<span class="priority">NEXT UP</span>':'<span></span>'}<button class="danger small remove" data-remove="${p.id}" aria-label="Remove ${esc(p.name)}">✕</button></div>`).join(''):'<div class="empty">Everyone is currently playing.</div>';
  const ranked=state.players.slice().sort((a,b)=>a.games-b.games||b.wait-a.wait||a.name.localeCompare(b.name));
- $('balanceRows').innerHTML=ranked.map(p=>`<tr><td><strong>${esc(p.name)}</strong></td><td class="num">${p.games}</td><td class="num">${p.wait}</td><td>${p.playing?'<span class="pill live">PLAYING</span>':'<span class="pill">WAITING</span>'}</td><td><button class="secondary small" data-remove="${p.id}">Remove</button></td></tr>`).join('');
+ $('balanceRows').innerHTML=ranked.map(p=>`<tr><td><strong>${esc(p.name)}</strong></td><td class="num">${p.games}</td><td class="num">${p.wait}</td><td>${p.playing?'<span class="pill live">PLAYING</span>':'<span class="pill">WAITING</span>'}</td><td>${skill(p).toFixed(1)}</td><td><div style="display:flex;gap:6px"><button class="secondary small" data-edit-rating="${p.id}">Edit rating</button><button class="danger small" data-remove="${p.id}">Remove</button></div></td></tr>`).join('');
  const ranking=state.players.slice().sort((a,b)=>(b.wins||0)-(a.wins||0)||(((b.wins||0)/Math.max(1,(b.wins||0)+(b.losses||0)))-((a.wins||0)/Math.max(1,(a.wins||0)+(a.losses||0))))||(((b.pointsFor||0)-(b.pointsAgainst||0))-((a.pointsFor||0)-(a.pointsAgainst||0))));
  $('rankingRows').innerHTML=ranking.map((p,i)=>`<tr><td>${i+1}</td><td><strong>${esc(p.name)}</strong></td><td>${skill(p).toFixed(1)}</td><td>${p.wins||0}</td><td>${p.losses||0}</td><td>${((p.wins||0)+(p.losses||0))?Math.round((p.wins||0)/((p.wins||0)+(p.losses||0))*100)+'%':'—'}</td><td>${(p.pointsFor||0)-(p.pointsAgainst||0)>0?'+':''}${(p.pointsFor||0)-(p.pointsAgainst||0)}</td></tr>`).join('');
  $('historyList').innerHTML=state.history.length?state.history.map(m=>{
@@ -131,11 +188,13 @@ function render(){
 document.addEventListener('click',e=>{
  const start=e.target.closest('[data-start]');if(start)startMatch(Number(start.dataset.start));
  const finish=e.target.closest('[data-finish]');if(finish)finishMatch(Number(finish.dataset.finish));
+ const editRating=e.target.closest('[data-edit-rating]');if(editRating)editPlayerRating(Number(editRating.dataset.editRating));
  const remove=e.target.closest('[data-remove]');if(remove)removePlayer(Number(remove.dataset.remove));
  const tab=e.target.closest('[data-tab]');if(tab){document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===tab));['queue','balance','rankings','history'].forEach(v=>$(v+'View').classList.toggle('hidden',v!==tab.dataset.tab));}
 });
 $('addBtn').addEventListener('click',addPlayer);
 $('playerName').addEventListener('keydown',e=>{if(e.key==='Enter')addPlayer();});
+$('matchingMode').addEventListener('change',e=>{state.matchingMode=e.target.value;save();render();notify('Matching mode updated.');});
 $('courtCount').addEventListener('change',e=>{
  const n=Number(e.target.value);
  if(state.matches.some(m=>m.court>n)){notify('Finish or move active matches on courts above '+n+' before reducing courts.');e.target.value=state.courtCount;return;}
@@ -143,7 +202,7 @@ $('courtCount').addEventListener('change',e=>{
 });
 $('resetBtn').addEventListener('click',()=>{
  if(!confirm('Reset this session? This clears the current roster, active matches and match history in this browser.'))return;
- state={players:[],matches:[],history:[],nextId:1,seq:0,courtCount:2};save();render();notify('Session reset. Add players to begin.');
+ state={players:[],matches:[],history:[],nextId:1,seq:0,courtCount:2,matchingMode:'balanced'};save();render();notify('Session reset. Add players to begin.');
 });
 render();
 })();
