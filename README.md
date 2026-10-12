@@ -7,7 +7,9 @@ A responsive, static website that can be hosted for free on GitHub Pages.
 - Multiple courts and simultaneous doubles matches
 - Queue priority: fewest games played, then highest waiting score
 - Automatic doubles team split that discourages repeat partnerships
-- Start/finish match controls
+- Start/finish match controls with score entry
+- Individual wins, losses, win percentage, and player rankings
+- Points for, points against, and point differential
 - Player balance and completed match history
 - Saves the session in the current browser using localStorage
 
