@@ -1,29 +1,21 @@
-# Bashers & Dinkers — Pickleball Queue Manager
-
-A responsive, static website that can be hosted for free on GitHub Pages.
+# Bashers & Dinkers — Pickleball Queue Manager (Skill Ratings)
 
 ## Features
-- Add/remove players
-- Multiple courts and simultaneous doubles matches
+- Responsive static website for GitHub Pages
+- Add players with a skill rating from 1.0 to 5.0 (0.5 increments)
+- Multiple courts and doubles matches
 - Queue priority: fewest games played, then highest waiting score
-- Automatic doubles team split that discourages repeat partnerships
-- Start/finish match controls with score entry
-- Individual wins, losses, win percentage, and player rankings
-- Points for, points against, and point differential
-- Player balance and completed match history
-- Saves the session in the current browser using localStorage
+- Skill-balanced teams: minimize the difference between the two teams' average ratings
+- Partner rotation: among equally skill-balanced team splits, prefer fewer repeat partnerships; randomize exact ties
+- Score entry, win/loss records, player rankings, point differential, and match history
+- Browser-local persistence with localStorage
 
-## Deploy on GitHub Pages
-1. Sign in to GitHub and create a new repository, for example `pickleball-queue`.
-2. Upload `index.html` to the repository root (and optionally this README).
-3. Open **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select branch `main` and folder `/ (root)`, then click **Save**.
-6. Wait for GitHub Pages to publish. Your URL will look like `https://YOUR-USERNAME.github.io/pickleball-queue/`.
+## Deploy/update on GitHub Pages
+1. Extract this ZIP.
+2. Open your existing `pickleball-queue` repository.
+3. Upload the new `index.html` (replace the old file) and commit changes.
+4. Keep GitHub Pages configured for branch `main`, folder `/(root)`.
+5. Refresh the published URL.
 
-## Important limitation
-This is a static, browser-local version. `localStorage` keeps data on the same browser/device, but does not sync queue changes between different phones or computers. It is not a real-time shared database. For a club-wide shared queue, connect the app to a backend such as Supabase and add authentication/security rules.
-
-## Notes
-- The app starts with 12 sample players so you can test it. Use **Reset session** to clear the sample session and start with a blank roster.
-- Fairness is based on completed games first and waiting score second. This is a transparent practical heuristic, not a guarantee of perfect fairness in every possible session.
+## Important
+This version stores session data in the current browser/device only. It does not synchronize multiple devices. A shared club queue needs a backend such as Supabase with appropriate access controls.
