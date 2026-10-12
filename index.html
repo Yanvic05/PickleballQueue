@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102d29">
+<title>Bashers & Dinkers — Queue Manager</title>
+<style>
+:root{--ink:#15332d;--green:#173b33;--lime:#d7f36a;--bg:#f4f6f1;--card:#fff;--muted:#64736d;--line:#dfe6df;--red:#b43c38;--shadow:0 5px 20px #173b330c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#20312c;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;font-weight:700;background:var(--green);color:white}button:disabled{opacity:.4;cursor:not-allowed}.secondary{background:#edf2eb;color:var(--green)}.danger{background:#fff0ee;color:var(--red)}.small{font-size:12px;padding:6px 9px}.wrap{max-width:1120px;margin:auto;padding:18px}.hero{background:var(--green);color:white;border-radius:22px;padding:22px;margin-bottom:16px}.brand{display:flex;gap:13px;align-items:center}.logo{background:var(--lime);color:var(--green);width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font-size:27px;font-weight:900}.hero h1{font-size:clamp(20px,4vw,29px);margin:0;letter-spacing:.3px}.eyebrow{color:var(--lime);font-size:12px;letter-spacing:1.4px;font-weight:800}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}.stat{background:#ffffff10;border:1px solid #ffffff1c;border-radius:13px;padding:12px}.stat span{display:block;color:#d3ded8;font-size:12px}.stat strong{font-size:27px}.notice{padding:10px 13px;border-radius:10px;background:#e8f0df;color:#254d32;margin:12px 0}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tabs{display:flex;gap:6px;background:#e8ece6;border-radius:12px;padding:5px;margin:14px 0;overflow:auto}.tabs button{flex:1;white-space:nowrap;background:transparent;color:var(--muted);padding:10px}.tabs button.active{background:white;color:var(--green);box-shadow:var(--shadow)}.panel{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}.panel h2{font-size:18px;margin:0 0 12px}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.muted{color:var(--muted);font-size:13px}.addrow{display:flex;gap:8px}.addrow input{min-width:0;flex:1}input,select{border:1px solid #cfd9d0;border-radius:10px;padding:10px;background:white;color:#20312c;min-width:0}input:focus,select:focus{outline:2px solid #b5d777}.courts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.court{border:1px solid var(--line);border-radius:13px;padding:13px;min-width:0}.court h3{margin:0;font-size:16px}.pill{font-size:11px;font-weight:800;border-radius:999px;padding:4px 8px;background:#edf2eb;color:#42624f}.pill.live{background:#e6f5d1;color:#2b651f}.teams{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;background:#f5f7f3;padding:12px;border-radius:12px;margin:12px 0}.team:last-child{text-align:right}.team label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin-bottom:5px}.team strong{display:block;overflow-wrap:anywhere}.match-actions{display:flex;gap:8px;flex-wrap:wrap}.match-actions button{flex:1}.slots{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.slot{background:#f1f5eb;border-radius:12px;padding:11px;min-width:0}.slot small{display:block;color:var(--muted);font-size:10px;font-weight:800}.slot strong{display:block;margin:6px 0;overflow-wrap:anywhere}.slot span{font-size:12px;color:var(--muted)}.list{display:flex;flex-direction:column}.player{display:grid;grid-template-columns:32px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.player:last-child{border-bottom:0}.rank{background:#edf2eb;border-radius:9px;height:31px;display:grid;place-items:center;font-weight:800}.playername{font-weight:750;overflow-wrap:anywhere}.player small{display:block;color:var(--muted)}.priority{font-size:11px;font-weight:800;color:#2b651f;background:#e6f5d1;padding:5px 7px;border-radius:999px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}td.num,th.num{text-align:right}.empty{padding:24px 8px;text-align:center;color:var(--muted)}.footer{color:var(--muted);font-size:12px;text-align:center;padding:10px 0 28px}.hidden{display:none!important}.settings{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.settings label{font-size:13px;color:var(--muted)}@media(max-width:650px){.wrap{padding:11px}.hero{padding:17px;border-radius:17px}.courts{grid-template-columns:1fr}.slots{grid-template-columns:repeat(2,minmax(0,1fr))}.player{grid-template-columns:30px minmax(0,1fr) auto}.player .remove{grid-column:3;grid-row:1}.priority{grid-column:2;justify-self:start}.stats{gap:7px}.stat{padding:10px}.stat strong{font-size:23px}.panel{padding:13px}.addrow button{padding:10px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <div class="brand"><div class="logo">BD</div><div><div class="eyebrow">PICKLEBALL CLUB TOOLS</div><h1>Bashers & Dinkers</h1><div style="color:#d3ded8;font-size:13px">Queue Manager · Fair play, every game</div></div></div>
+  <div class="stats"><div class="stat"><span>Registered</span><strong id="statPlayers">0</strong></div><div class="stat"><span>Playing</span><strong id="statPlaying">0</strong></div><div class="stat"><span>Waiting</span><strong id="statWaiting">0</strong></div></div>
+</header>
+<div id="notice" class="notice" role="status">Ready to play. Add players or use the sample roster.</div>
+<section class="panel">
+ <div class="row"><h2>Session setup</h2><button class="secondary small" id="resetBtn">Reset session</button></div>
+ <div class="settings"><label for="courtCount">Courts</label><select id="courtCount"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select><span class="muted">Each court runs its own doubles match.</span></div>
+ <div class="addrow" style="margin-top:13px"><input id="playerName" maxlength="40" placeholder="Enter player name" autocomplete="off"><button id="addBtn">＋ Add player</button></div>
+</section>
+<nav class="tabs" aria-label="Views"><button class="active" data-tab="queue">Queue & Courts</button><button data-tab="balance">Player Balance</button><button data-tab="history">Match History</button></nav>
+<main id="queueView">
+ <section class="panel"><div class="row"><h2>Court management</h2><span class="muted" id="courtSummary"></span></div><div id="courts" class="courts"></div></section>
+ <section class="panel"><div class="row"><h2>Next doubles lineup</h2><span class="pill" id="nextCount">0 / 4 players</span></div><p class="muted">Preview of the next four eligible players. Teams are randomized when you start a match, with repeat partners discouraged.</p><div class="slots" id="nextSlots"></div></section>
+ <section class="panel"><div class="row"><h2>Waiting queue</h2><span class="muted">Fair rotation</span></div><div id="queueList" class="list"></div></section>
+</main>
+<main id="balanceView" class="hidden"><section class="panel"><h2>Player queue balance</h2><p class="muted">Lower games played comes first; waiting time breaks ties. The wait score increases each time another match finishes.</p><div class="tablewrap"><table><thead><tr><th>Player</th><th class="num">Games</th><th class="num">Wait score</th><th>Status</th><th></th></tr></thead><tbody id="balanceRows"></tbody></table></div></section></main>
+<main id="historyView" class="hidden"><section class="panel"><h2>Completed matches</h2><div id="historyList"></div></section></main>
+<section class="panel"><h2>How fairness works</h2><div class="muted">① Players on court are excluded from the queue. ② Available players are ranked by fewest completed games, then highest waiting score. ③ Four eligible players are selected for doubles. ④ The team split is randomized, preferring combinations with fewer repeat partnerships. ⑤ Finishing a match updates game counts, waiting scores, partner history, and match history.</div></section>
+<div class="footer">Bashers & Dinkers Queue Manager · This browser's saved session</div>
+</div>
+<script>
+(() => {
+const KEY='bashers-dinkers-queue-v1';
+const sampleNames=['Alex','Ben','Carlo','Dan','Ella','Frank','Grace','Henry','Ivan','Jules','Kyle','Lara'];
+const initial=()=>({players:sampleNames.map((name,i)=>({id:i+1,name,games:0,wait:sampleNames.length-i,lastPlayed:0,partners:{},playing:false})),matches:[],history:[],nextId:sampleNames.length+1,seq:0,courtCount:2});
+let state;
+try { state=JSON.parse(localStorage.getItem(KEY)) || initial(); } catch { state=initial(); }
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}};
+const notify=s=>{$('notice').textContent=s;};
+const player=id=>state.players.find(p=>p.id===id);
+const eligible=()=>state.players.filter(p=>!p.playing).sort((a,b)=>a.games-b.games||b.wait-a.wait||a.lastPlayed-b.lastPlayed||a.name.localeCompare(b.name));
+const partnerCount=(a,b)=>(player(a)?.partners?.[b]||0);
+function chooseTeams(four){
+ const splits=[[[0,1],[2,3]],[[0,2],[1,3]],[[0,3],[1,2]]];
+ const score=s=>partnerCount(four[s[0][0]].id,four[s[0][1]].id)+partnerCount(four[s[1][0]].id,four[s[1][1]].id);
+ const scores=splits.map(score),min=Math.min(...scores);
+ const candidates=splits.filter(s=>score(s)===min);
+ const chosen=candidates[Math.floor(Math.random()*candidates.length)];
+ return chosen.map(pair=>pair.map(i=>four[i].id));
+}
+function addPlayer(){
+ const input=$('playerName'),name=input.value.trim(); if(!name)return;
+ if(state.players.some(p=>p.name.toLowerCase()===name.toLowerCase())){notify('That player is already registered.');return;}
+ state.players.push({id:state.nextId++,name,games:0,wait:0,lastPlayed:0,partners:{},playing:false});input.value='';save();render();notify(name+' added to the queue.');
+}
+function startMatch(court){
+ if(state.matches.some(m=>m.court===court)){notify('That court already has an active match.');return;}
+ const four=eligible().slice(0,4);if(four.length<4){notify('You need four available players to start a doubles match.');return;}
+ const teams=chooseTeams(four),ids=four.map(p=>p.id),match={id:state.seq+1,court,teams,playerIds:ids,startedAt:new Date().toISOString()};
+ ids.forEach(id=>{const p=player(id);p.playing=true;p.wait=0;});
+ state.seq++;state.matches.push(match);save();render();notify('Match started on Court '+court+'.');
+}
+function finishMatch(id){
+ const m=state.matches.find(x=>x.id===id);if(!m)return;
+ const ids=m.playerIds;
+ state.players.forEach(p=>{
+  if(ids.includes(p.id)){
+   p.games++;p.wait=0;p.playing=false;p.lastPlayed=state.seq+1;
+   const teammates=m.teams.find(t=>t.includes(p.id))||[];
+   teammates.filter(pid=>pid!==p.id).forEach(pid=>p.partners[pid]=(p.partners[pid]||0)+1);
+  } else if(!p.playing) p.wait++;
+ });
+ state.history.unshift({...m,finishedAt:new Date().toISOString()});
+ state.matches=state.matches.filter(x=>x.id!==id);state.seq++;save();render();notify('Match finished. Queue balances have been updated.');
+}
+function removePlayer(id){
+ const p=player(id);if(!p)return;if(p.playing){notify('Finish the player’s active match before removing them.');return;}
+ if(!confirm('Remove '+p.name+' from this session?'))return;
+ state.players=state.players.filter(x=>x.id!==id);save();render();notify(p.name+' removed from the session.');
+}
+function render(){
+ $('statPlayers').textContent=state.players.length;
+ $('statPlaying').textContent=state.players.filter(p=>p.playing).length;
+ $('statWaiting').textContent=state.players.filter(p=>!p.playing).length;
+ $('courtCount').value=String(state.courtCount);
+ $('courtSummary').textContent=state.matches.length+' active';
+ const pool=eligible();
+ $('courts').innerHTML=Array.from({length:state.courtCount},(_,i)=>i+1).map(c=>{
+  const m=state.matches.find(x=>x.court===c);
+  if(!m)return `<article class="court"><div class="row"><h3>Court ${c}</h3><span class="pill">AVAILABLE</span></div><p class="muted">Ready for the next four eligible players.</p><button data-start="${c}" ${pool.length<4?'disabled':''} style="width:100%">▶ Start next match</button></article>`;
+  const a=m.teams[0].map(id=>player(id)?.name||'Removed player'),b=m.teams[1].map(id=>player(id)?.name||'Removed player');
+  return `<article class="court"><div class="row"><h3>Court ${c}</h3><span class="pill live">IN PROGRESS</span></div><div class="teams"><div class="team"><label>TEAM A</label>${a.map(n=>`<strong>${esc(n)}</strong>`).join('')}</div><b>VS</b><div class="team"><label>TEAM B</label>${b.map(n=>`<strong>${esc(n)}</strong>`).join('')}</div></div><div class="match-actions"><button data-finish="${m.id}" style="width:100%">✓ Finish match</button></div></article>`;
+ }).join('');
+ $('nextCount').textContent=Math.min(4,pool.length)+' / 4 players';
+ $('nextSlots').innerHTML=Array.from({length:4},(_,i)=>pool[i]?`<div class="slot"><small>NEXT UP · SLOT ${i+1}</small><strong>${esc(pool[i].name)}</strong><span>${pool[i].games} games played</span></div>`:`<div class="slot"><small>SLOT ${i+1}</small><strong>Waiting for player</strong><span>Not enough players</span></div>`).join('');
+ $('queueList').innerHTML=pool.length?pool.map((p,i)=>`<div class="player"><div class="rank">${i+1}</div><div><div class="playername">${esc(p.name)}</div><small>${p.games} games · wait score ${p.wait}</small></div>${i<4?'<span class="priority">NEXT UP</span>':'<span></span>'}<button class="danger small remove" data-remove="${p.id}" aria-label="Remove ${esc(p.name)}">✕</button></div>`).join(''):'<div class="empty">Everyone is currently playing.</div>';
+ const ranked=state.players.slice().sort((a,b)=>a.games-b.games||b.wait-a.wait||a.name.localeCompare(b.name));
+ $('balanceRows').innerHTML=ranked.map(p=>`<tr><td><strong>${esc(p.name)}</strong></td><td class="num">${p.games}</td><td class="num">${p.wait}</td><td>${p.playing?'<span class="pill live">PLAYING</span>':'<span class="pill">WAITING</span>'}</td><td><button class="secondary small" data-remove="${p.id}">Remove</button></td></tr>`).join('');
+ $('historyList').innerHTML=state.history.length?state.history.map(m=>{
+  const names=m.playerIds.map(id=>m.playerNames?.[id]||player(id)?.name||'Player');
+  const teamNames=m.teams.map(t=>t.map(id=>m.playerNames?.[id]||player(id)?.name||'Player'));
+  return `<article class="court" style="margin-bottom:10px"><div class="row"><strong>Match #${m.id}</strong><span class="pill">Court ${m.court}</span></div><div class="teams"><div class="team"><label>TEAM A</label>${teamNames[0].map(n=>`<strong>${esc(n)}</strong>`).join('')}</div><b>VS</b><div class="team"><label>TEAM B</label>${teamNames[1].map(n=>`<strong>${esc(n)}</strong>`).join('')}</div></div><div class="muted">Completed ${new Date(m.finishedAt).toLocaleString()}</div></article>`;
+ }).join(''):'<div class="empty">No completed matches yet. Finish a match on any court to see it here.</div>';
+}
+document.addEventListener('click',e=>{
+ const start=e.target.closest('[data-start]');if(start)startMatch(Number(start.dataset.start));
+ const finish=e.target.closest('[data-finish]');if(finish)finishMatch(Number(finish.dataset.finish));
+ const remove=e.target.closest('[data-remove]');if(remove)removePlayer(Number(remove.dataset.remove));
+ const tab=e.target.closest('[data-tab]');if(tab){document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===tab));['queue','balance','history'].forEach(v=>$(v+'View').classList.toggle('hidden',v!==tab.dataset.tab));}
+});
+$('addBtn').addEventListener('click',addPlayer);
+$('playerName').addEventListener('keydown',e=>{if(e.key==='Enter')addPlayer();});
+$('courtCount').addEventListener('change',e=>{
+ const n=Number(e.target.value);
+ if(state.matches.some(m=>m.court>n)){notify('Finish or move active matches on courts above '+n+' before reducing courts.');e.target.value=state.courtCount;return;}
+ state.courtCount=n;save();render();notify('Court count updated.');
+});
+$('resetBtn').addEventListener('click',()=>{
+ if(!confirm('Reset this session? This clears the current roster, active matches and match history in this browser.'))return;
+ state={players:[],matches:[],history:[],nextId:1,seq:0,courtCount:2};save();render();notify('Session reset. Add players to begin.');
+});
+render();
+})();
+</script>
+</body>
+</html>
